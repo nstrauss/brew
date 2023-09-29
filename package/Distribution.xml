@@ -33,7 +33,7 @@
   <script>
     // See https://developer.apple.com/documentation/installer_js
     function installation_check() {
-      if (system.files.fileExistsAtPath("/Library/Developer/CommandLineTools/usr/bin/git")) {
+      if ((system.files.fileExistsAtPath("/Library/Developer/CommandLineTools/usr/bin/git")) || (system.files.fileExistsAtPath("/Library/Developer/CommandLineTools/usr/bin/git"))) {
         return true;
       } else {
         my.result.title = "Command Line Tools (CLT) for Xcode are missing";
