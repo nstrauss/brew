@@ -51,6 +51,7 @@ if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged
 then
   # get last created account UID over 500
   logged_in_user=$(dscl . list /Users UniqueID | awk '$2 > 500 { print $1 }' | tail -n 1)
+  # no valid accounts exist yet, use root temporarily
   [[ -z "${logged_in_user}" ]]
   then
     logged_in_user="root"
@@ -60,9 +61,9 @@ fi
 group=$(id -gn "${logged_in_user}")
 if [[ "${homebrew_directory}" == "/usr/local/Homebrew" ]]
 then
-  chown -R "${logged_in_user}:${group}" Cellar Frameworks Homebrew bin etc include lib sbin share var/homebrew/linked
+  chown -R "${logged_in_user}:admin" Cellar Frameworks Homebrew bin etc include lib sbin share var/homebrew/linked
 else
-  chown -R "${logged_in_user}:${group}" .
+  chown -R "${logged_in_user}:admin" .
 fi
 
 # move API cache to ~/Library/Caches/Homebrew
