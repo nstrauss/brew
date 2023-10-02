@@ -84,6 +84,9 @@ jobs:
         if: ${{ always() }}
         run: sudo cat /var/log/install.log
 
+      - name: Set ORIGIN
+        run: git -C "/usr/local/Homebrew" remote set-url origin https://github.com/Homebrew/brew
+
       - run: brew config
 
       - run: brew doctor
