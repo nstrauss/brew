@@ -18,7 +18,7 @@ jobs:
     env:
       TEMPORARY_CERTIFICATE_FILE: 'homebrew_developer_id_installer_certificate.p12'
       TEMPORARY_KEYCHAIN_FILE: 'homebrew_installer_signing.keychain-db'
-      MIN_MACOS_VERSION: '11.0'
+      MIN_MACOS_VERSION: '12.0'
       PKG_APPLE_DEVELOPER_TEAM_ID: ${{ secrets.PKG_APPLE_DEVELOPER_TEAM_ID }}
       HOMEBREW_NO_ANALYTICS_THIS_RUN: 1
       HOMEBREW_NO_ANALYTICS_MESSAGE_OUTPUT: 1
