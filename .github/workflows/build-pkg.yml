@@ -58,7 +58,7 @@ jobs:
                       --install-location "/opt/homebrew"
                       --filter .DS_Store
                       --filter "(.*)/Library/Homebrew/test/support/fixtures/"
-                      --min-os-version "${MIN_MACOS_VERSION}"
+                      --min-os-version "12.0"
 
       - name: Convert Homebrew license file to RTF
         run: (printf "### " && cat brew/LICENSE.txt) |
