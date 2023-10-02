@@ -33,10 +33,6 @@ jobs:
       - name: Install Pandoc
         run: brew install pandoc
 
-      - name: Clean up temporary certificate file
-        if: ${{ always() }}
-        run: rm -f "${RUNNER_TEMP}/${TEMPORARY_CERTIFICATE_FILE}"
-
       - name: Checkout another Homebrew to brew subdirectory
         uses: actions/checkout@v4
         with:
