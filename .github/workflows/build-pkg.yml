@@ -36,6 +36,7 @@ jobs:
       - name: Checkout another Homebrew to brew subdirectory
         uses: actions/checkout@v4
         with:
+          repository: Homebrew/brew
           path: brew
           fetch-depth: 0
           persist-credentials: false
@@ -100,6 +101,9 @@ jobs:
       - name: Output installer logs (again)
         if: ${{ always() }}
         run: sudo cat /var/log/install.log
+
+      - name: Set ORIGIN
+        run: git -C "/usr/local/Homebrew" remote set-url origin https://github.com/Homebrew/brew
 
       - run: brew config
 
