@@ -58,7 +58,6 @@ then
   fi
 fi
 
-group=$(id -gn "${logged_in_user}")
 if [[ "${homebrew_directory}" == "/usr/local/Homebrew" ]]
 then
   chown -R "${logged_in_user}:admin" Cellar Frameworks Homebrew bin etc include lib sbin share var/homebrew/linked
@@ -67,7 +66,10 @@ else
 fi
 
 # move API cache to ~/Library/Caches/Homebrew
-user_api_cache_dir=~"${logged_in_user}"/Library/Caches/Homebrew/api
-mkdir -vp "${user_api_cache_dir}"
-mv -v "${homebrew_directory}/cache_api/"* "${user_api_cache_dir}"
-rm -vrf "${homebrew_directory}/cache_api"
+if [[ ! "${logged_in_user}" == "root" ]]
+then
+  user_home_dir=$(dscl . read /Users/${logged_in_user} NFSHomeDirectory | awk '{ print $2 }')
+  user_api_cache_dir="${user_home_dir}/Library/Caches/Homebrew/api"
+  mkdir -vp "${user_api_cache_dir}"
+  mv -v "/opt/homebrew/cache_api/"* "${user_api_cache_dir}"
+fi
