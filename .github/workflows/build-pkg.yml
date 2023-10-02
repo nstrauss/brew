@@ -7,10 +7,10 @@ on:
   release:
     types:
       - published
-  workflow_dispatch:
 
 jobs:
   build:
+    if: github.repository_owner == 'Homebrew'
     runs-on: macos-13
     permissions:
       # To write assets to GitHub release
@@ -33,6 +33,10 @@ jobs:
 
       - name: Install Pandoc
         run: brew install pandoc
+
+      - name: Clean up temporary certificate file
+        if: ${{ always() }}
+        run: rm -f "${RUNNER_TEMP}/${TEMPORARY_CERTIFICATE_FILE}"
 
       - name: Checkout another Homebrew to brew subdirectory
         uses: actions/checkout@v4
@@ -58,7 +62,8 @@ jobs:
                       --install-location "/opt/homebrew"
                       --filter .DS_Store
                       --filter "(.*)/Library/Homebrew/test/support/fixtures/"
-                      --min-os-version "12.0"
+                      --min-os-version "${MIN_MACOS_VERSION}"
+                      Homebrew.pkg
 
       - name: Convert Homebrew license file to RTF
         run: (printf "### " && cat brew/LICENSE.txt) |
