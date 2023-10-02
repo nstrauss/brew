@@ -47,6 +47,12 @@ mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 
 # set permissions
 logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
+if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
+then
+  # get last created account UID over 500
+  logged_in_user=$(dscl . list /Users UniqueID | awk '$2 > 500 { print $1 }' | tail -n 1)
+fi
+
 group=$(id -gn "${logged_in_user}")
 if [[ "${homebrew_directory}" == "/usr/local/Homebrew" ]]
 then
