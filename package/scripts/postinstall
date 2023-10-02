@@ -77,5 +77,6 @@ then
   user_home_dir=$(dscl . read /Users/${logged_in_user} NFSHomeDirectory | awk '{ print $2 }')
   user_api_cache_dir="${user_home_dir}/Library/Caches/Homebrew/api"
   mkdir -vp "${user_api_cache_dir}"
-  mv -v "/opt/homebrew/cache_api/"* "${user_api_cache_dir}"
+  mv -v "${homebrew_directory}/cache_api/"* "${user_api_cache_dir}"
+  rm -vrf "${homebrew_directory}/cache_api"
 fi
