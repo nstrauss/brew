@@ -14,7 +14,7 @@ export HOMEBREW_NO_ANALYTICS_MESSAGE_OUTPUT=1
 homebrew_directory="${2:-/opt/homebrew}"
 if [[ ! -d "${homebrew_directory:?}" ]]
 then
-  echo "no directory at ${homebrew_directory}!" >&2
+  echo "No directory at ${homebrew_directory}!" >&2
   exit 1
 fi
 
@@ -32,7 +32,7 @@ git config --global --unset safe.directory "${homebrew_directory}"
 # move to /usr/local if on x86_64
 if [[ $(uname -m) == "x86_64" ]]
 then
-  sudo mkdir -vp /usr/local/bin /usr/local/Homebrew
+  mkdir -vp /usr/local/bin /usr/local/Homebrew
   cp -a "${homebrew_directory}"/* "${homebrew_directory}/".??* "/usr/local/Homebrew/"
 
   # create symlink to /usr/local/bin/brew
@@ -43,10 +43,20 @@ then
 fi
 
 # create missing directories
-sudo mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
+mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 
 # set permissions
 logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
+if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
+then
+  # get last created account UID over 500
+  logged_in_user=$(dscl . list /Users UniqueID | awk '$2 > 500 { print $1 }' | tail -n 1)
+  [[ -z "${logged_in_user}" ]]
+  then
+    logged_in_user="root"
+  fi
+fi
+
 group=$(id -gn "${logged_in_user}")
 if [[ "${homebrew_directory}" == "/usr/local/Homebrew" ]]
 then
