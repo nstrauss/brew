@@ -78,5 +78,6 @@ then
   user_api_cache_dir="${user_home_dir}/Library/Caches/Homebrew/api"
   mkdir -vp "${user_api_cache_dir}"
   mv -v "${homebrew_directory}/cache_api/"* "${user_api_cache_dir}"
+  chown -R "${logged_in_user}:staff" "${user_api_cache_dir}"
   rm -vrf "${homebrew_directory}/cache_api"
 fi
