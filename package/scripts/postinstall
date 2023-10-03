@@ -74,7 +74,7 @@ fi
 # move API cache to ~/Library/Caches/Homebrew
 if [[ ! "${logged_in_user}" == "root" ]]
 then
-  user_home_dir=$(dscl . read /Users/${logged_in_user} NFSHomeDirectory | awk '{ print $2 }')
+  user_home_dir=$(dscl . read /Users/"${logged_in_user}" NFSHomeDirectory | awk '{ print $2 }')
   user_cache_dir="${user_home_dir}/Library/Caches/Homebrew"
   user_api_cache_dir="${user_cache_dir}/api"
   mkdir -vp "${user_api_cache_dir}"
