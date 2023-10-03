@@ -32,7 +32,7 @@ git config --global --unset safe.directory "${homebrew_directory}"
 # move to /usr/local if on x86_64
 if [[ $(uname -m) == "x86_64" ]]
 then
-  mkdir -vp /usr/local/bin /usr/local/Homebrew
+  sudo mkdir -vp /usr/local/bin /usr/local/Homebrew
   cp -a "${homebrew_directory}"/* "${homebrew_directory}/".??* "/usr/local/Homebrew/"
 
   # create symlink to /usr/local/bin/brew
@@ -43,7 +43,7 @@ then
 fi
 
 # create missing directories
-mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
+sudo mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 
 # get valid logged in user
 logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
@@ -79,6 +79,6 @@ then
   user_api_cache_dir="${user_cache_dir}/api"
   mkdir -vp "${user_api_cache_dir}"
   mv -v "${homebrew_directory}/cache_api/"* "${user_api_cache_dir}"
-  chown -R "${logged_in_user}:staff" "${user_cache_dir}"
+  sudo chown -R "${logged_in_user}:staff" "${user_cache_dir}"
   rm -vrf "${homebrew_directory}/cache_api"
 fi
