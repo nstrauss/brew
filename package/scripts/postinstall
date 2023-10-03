@@ -49,7 +49,7 @@ mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
 
 # optionally pass an environment variable to `installer` to define user
-if [[ "${HOMEBREW_PKG_USER}" ]]
+if [[ -n "${HOMEBREW_PKG_USER:-}" ]]
 then
   logged_in_user="${HOMEBREW_PKG_USER}"
 elif [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
@@ -75,8 +75,10 @@ fi
 if [[ ! "${logged_in_user}" == "root" ]]
 then
   user_home_dir=$(dscl . read /Users/${logged_in_user} NFSHomeDirectory | awk '{ print $2 }')
-  user_api_cache_dir="${user_home_dir}/Library/Caches/Homebrew/api"
+  user_cache_dir="${user_home_dir}/Library/Caches/Homebrew"
+  user_api_cache_dir="${user_cache_dir}/api"
   mkdir -vp "${user_api_cache_dir}"
+  chown -R "${logged_in_user}:staff" "${user_cache_dir}"
   mv -v "${homebrew_directory}/cache_api/"* "${user_api_cache_dir}"
   chown -R "${logged_in_user}:staff" "${user_api_cache_dir}"
   rm -vrf "${homebrew_directory}/cache_api"
