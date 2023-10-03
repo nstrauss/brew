@@ -49,7 +49,7 @@ mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
 
 # optionally pass an environment variable to `installer` to define user
-if [[ "${HOMEBREW_PKG_USER}" ]]
+if [[ -n "${HOMEBREW_PKG_USER:-}" ]]
 then
   logged_in_user="${HOMEBREW_PKG_USER}"
 elif [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
