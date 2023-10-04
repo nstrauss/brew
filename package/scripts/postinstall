@@ -63,17 +63,6 @@ else
   logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
 fi
 
-if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
-then
-  # get last created account UID over 500
-  logged_in_user=$(dscl . list /Users UniqueID | awk '$2 > 500 { print $1 }' | tail -n 1)
-  # no valid accounts exist yet, use root temporarily
-  if [[ -z "${logged_in_user}" ]]
-  then
-    logged_in_user="root"
-  fi
-fi
-
 # set permissions
 if [[ "${homebrew_directory}" == "/usr/local/Homebrew" ]]
 then
