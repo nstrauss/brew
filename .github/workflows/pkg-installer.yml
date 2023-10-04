@@ -91,23 +91,6 @@ jobs:
 
       - run: brew doctor
 
-      - name: Zero existing installer logs (again)
-        run: echo | sudo tee /var/log/install.log
-
-      - name: Reinstall Homebrew from installer package
-        run: sudo installer -verbose -pkg Homebrew-${{ steps.print-version.outputs.version }}.pkg -target /
-
-      - name: Output installer logs (again)
-        if: ${{ always() }}
-        run: sudo cat /var/log/install.log
-
-      - name: Set ORIGIN
-        run: git -C "/usr/local/Homebrew" remote set-url origin https://github.com/Homebrew/brew
-
-      - run: brew config
-
-      - run: brew doctor
-
       - name: Upload installer to GitHub Actions
         uses: actions/upload-artifact@v3
         with:

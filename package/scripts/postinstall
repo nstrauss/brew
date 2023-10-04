@@ -56,7 +56,7 @@ mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 
 # optionally define an install user at /var/tmp/.homebrew_pkg_user.plist
 homebrew_pkg_user_plist="/var/tmp/.homebrew_pkg_user.plist"
-if [[ -f "${homebrew_pkg_user_plist}" ]]
+if [[ -f "${homebrew_pkg_user_plist}" ]] && [[ ! -z $(defaults read "${homebrew_pkg_user_plist}" HOMEBREW_PKG_USER) ]]
 then
   logged_in_user=$(defaults read /var/tmp/.homebrew_pkg_user HOMEBREW_PKG_USER)
 # otherwise, get valid logged in user
