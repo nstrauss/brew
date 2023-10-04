@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <installer-gui-script minSpecVersion="2">
   <pkg-ref id="sh.brew.homebrew"/>
-  <options customize="never" hostArchitectures="x86_64,arm64" rootVolumeOnly="true"/>
+  <options allow-external-scripts="true" customize="never" hostArchitectures="x86_64,arm64" rootVolumeOnly="true"/>
   <volume-check>
     <allowed-os-versions>
         <os-version min="12.0.0"/>
@@ -38,6 +38,15 @@
       } else {
         my.result.title = "Command Line Tools (CLT) are missing";
         my.result.message = "You must install the Command Line Tools (CLT) before installing Homebrew by running `xcode-select --install` from a Terminal.";
+        my.result.type = "Fatal";
+        return false;
+      }
+
+      if (run("usercheck.sh")) == 0 {
+        return true;
+      } else {
+        my.result.title = "No valid user";
+        my.result.message = "No valid user exists to complete the Homebrew installation. Log into a user account and try again.";
         my.result.type = "Fatal";
         return false;
       }
