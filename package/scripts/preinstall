@@ -2,7 +2,7 @@
 set -euo pipefail
 
 logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
-if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
+if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root|nathaniel.strauss ]] || [[ -z "${logged_in_user}" ]]
 then
   echo "No valid user for Homebrew installation. Log in with a user account and try again."
   exit 1
