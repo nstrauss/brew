@@ -54,14 +54,16 @@ fi
 # create missing directories
 mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 
-# get valid logged in user
-logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
-
 # optionally pass an environment variable to `installer` to define user
 if [[ -n "${HOMEBREW_PKG_USER:-}" ]]
 then
   logged_in_user="${HOMEBREW_PKG_USER}"
-elif [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
+# otherwise, get valid logged in user
+else
+  logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
+fi
+
+if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
 then
   # get last created account UID over 500
   logged_in_user=$(dscl . list /Users UniqueID | awk '$2 > 500 { print $1 }' | tail -n 1)
