@@ -1,6 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
+homebrew_pkg_user_plist="/var/tmp/.homebrew_pkg_user.plist"
+if [[ -f "${homebrew_pkg_user_plist}" ]] && [[ ! -z $(defaults read "${homebrew_pkg_user_plist}" HOMEBREW_PKG_USER) ]]
+then
+  exit 0
+fi
+
 logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
 if [[ "${logged_in_user}" =~ _mbsetupuser|loginwindow|root ]] || [[ -z "${logged_in_user}" ]]
 then

@@ -54,8 +54,17 @@ fi
 # create missing directories
 mkdir -vp Cellar Frameworks etc include lib opt sbin share var/homebrew/linked
 
+# optionally define an install user at /var/tmp/.homebrew_pkg_user.plist
+homebrew_pkg_user_plist="/var/tmp/.homebrew_pkg_user.plist"
+if [[ -f "${homebrew_pkg_user_plist}" ]]
+then
+  logged_in_user=$(defaults read /var/tmp/.homebrew_pkg_user HOMEBREW_PKG_USER)
+# otherwise, get valid logged in user
+else
+  logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
+fi
+
 # set permissions
-logged_in_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
 if [[ "${homebrew_directory}" == "/usr/local/Homebrew" ]]
 then
   chown -R "${logged_in_user}:admin" Cellar Frameworks Homebrew bin etc include lib sbin share var/homebrew/linked
