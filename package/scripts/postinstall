@@ -36,10 +36,10 @@ then
   then
     cp -pRL "${homebrew_directory}/.git" "/usr/local/Homebrew/"
     mv -n "${homebrew_directory}/cache_api" "/usr/local/Homebrew/"
-    git config --global --add safe.directory "/usr/local/Homebrew/"
+    git config --global --add safe.directory "/usr/local/Homebrew"
     git -C /usr/local/Homebrew reset --hard
     git -C /usr/local/Homebrew checkout --force master
-    git config --global --unset safe.directory "/usr/local/Homebrew/"
+    git config --global --unset safe.directory "/usr/local/Homebrew"
   else
     mkdir -vp /usr/local/bin
     mv "${homebrew_directory}" "/usr/local/Homebrew/"
