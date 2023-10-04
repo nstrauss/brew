@@ -2,7 +2,7 @@ name: Build Homebrew installer pkg
 on:
   push:
     paths:
-      - .github/workflows/build-pkg.yml
+      - .github/workflows/pkg-installer.yml
       - package/**/*
   release:
     types:
